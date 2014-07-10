@@ -81,7 +81,7 @@ disqus_shortname: yeesblog
 # Extensions
 ## Plugins: https://github.com/tommy351/hexo/wiki/Plugins
 ## Themes: https://github.com/tommy351/hexo/wiki/Themes
-theme: strict
+theme: my-strict
 exclude_generator: 
 
 # Deployment
