@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Host Blog on Github Using Hexo</title>
+    <link rel="stylesheet" href="/css/remark.css" media="screen">
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse
+# Host blog on github
+
+
+```   
+
+
+```   
+
+## Using Hexo
+
+```
+
+
+
+Louis Yu
+2014.7.10
+```
+---
+class: inverse
+## Conception
+### 
+- [Github pages](https://pages.github.com/)
+
+```bash
+    Hosted directly from your GitHub repository. Just edit, push, and 
+    your changes are live.
+```
+- [Hexo](http://hexo.io/)
+
+```bash
+    A fast, simple &amp; powerful blog framework, powered by Node.js
+```
+---
+class: inverse
+## Create github pages
+### 
+
+- Create repository "username.github.io"
+
+```bash
+    git clone https://github.com/yeejlan/yeejlan.github.io
+
+    cd yeejlan.github.io
+    echo "Hello World" > index.html
+
+    git add --all
+    git commit -m "Initial commit"
+
+    git push
+```
+- Browse to https://yeejlan.github.io
+
+---
+class: inverse
+## Install Hexo
+### 
+
+- Install Node.js
+
+    [http://www.nodejs.org/](http://www.nodejs.org/)
+
+- Install Git
+
+    [http://git-scm.com/](http://git-scm.com/)    
+
+- Install Hexo
+
+```http
+    npm install hexo -g
+```
+---
+class: inverse
+## Create Blog Folder
+### 
+
+```bash
+hexo init E:/blog
+cd E:/blog
+npm install
+```
+
+- It looks like
+```html
+.
+├── _config.yml
+├── package.json
+├── .deploy
+├── node_modules
+├── public
+├── scaffolds
+├── source
+|   ├── _drafts
+|   └── _posts
+├── themes
+└── .gitignore
+```
+---
+class: inverse
+## Hexo configuration
+
+```config
+title: Yee's 部落格
+author: Yu Fang
+url: https://yeejlan.github.com
+
+# Writing
+new_post_name: :year-:month-:day-:title.md # File name of new posts
+highlight:
+  enable: true
+  line_number: true
+
+# Server
+port: 4000
+server_ip: 0.0.0.0
+
+# Disqus
+disqus_shortname: yeesblog
+theme: strict
+
+# Deployment
+deploy:
+  type: github
+  repository: origin https://github.com/yeejlan/yeejlan.github.io.git
+  branch: master
+
+```
+---
+class: inverse
+##Create a New Post
+### 
+
+```bash
+E:\blog>hexo new "my first post"
+[info] File created at E:\blog\source\_posts\2014-07-10-my-first-post.md
+```
+- Content of 2014-07-10-my-first-post.md
+```
+title: 'my first post'
+date: 2014-07-10 09:06:04
+tags:
+```
+- What's markdown
+
+    [Markdown basics](https://help.github.com/articles/markdown-basics)
+
+    [Mastering markdown](https://guides.github.com/features/mastering-markdown/)
+
+- Markdown editor
+
+    [markdownpad](http://www.markdownpad.com/)
+
+    [StackEdit](https://stackedit.io)
+
+---
+class: inverse
+## Preview a post
+### 
+
+- Recall _config.yml configuration
+
+```config
+  # Server
+  port: 4000
+  server_ip: 0.0.0.0
+```
+```bash
+  E:\blog>hexo server
+  [info] Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.
+```
+
+- Browse to http://localhost:4000/ and change your post
+
+```bash
+  [update] E:\blog\source\remark\host-blog-on-github-using-hexo.html
+  [update] E:\blog\source\remark\host-blog-on-github-using-hexo.html
+  ...
+```
+
+---
+class: inverse
+## Generate static pages and publish
+### 
+
+- Generate static pages
+
+```config
+  E:\blog>hexo generate
+  [info] Files loaded in 0.498s
+  [create] Public: archives\2014\index.html
+  [create] Public: archives\index.html
+  ...
+  [create] Public: tags\samba\index.html
+  [info] 9 files generated in 0.433s
+```
+
+- Publish
+```config
+E:\blog>hexo deploy
+[info] Start deploying: github
+[info] Clearing .deploy folder...
+[info] Copying files from public folder...
+[info] Deploy done: github
+```
+- Remove warning: LF will be replaced by CRLF
+```http
+git config --global core.autocrlf false
+```
+
+---
+class: inverse
+## Manually publish
+### 
+
+- Without github publickey
+```config
+E:\blog>hexo deploy
+[info] Start deploying: github
+[info] Clearing .deploy folder...
+[info] Copying files from public folder...
+[master 7de11f3] Site updated: 2014-07-10 10:24:37
+ 4 files changed, 1904 insertions(+), 1904 deletions(-)
+Permission denied (publickey).
+```
+
+- Push changes to github
+```bash
+E:\blog>git push
+Username for 'https://github.com': yeejlan
+Password for 'https://yeejlan@github.com':
+Everything up-to-date
+```
+
+---
+class: inverse
+## Themes
+### 
+
+- Find themes
+
+  [https://github.com/hexojs/hexo/wiki/Themes](https://github.com/hexojs/hexo/wiki/Themes)
+
+- Install themes
+
+```http
+    git clone <repository> themes/<theme-name>
+```
+
+- Enable themes
+```config
+    # Edit _config.yml
+    # Extensions
+    theme: <theme-name>
+```
+
+---
+class: inverse
+## Comments
+### 
+
+- disqus
+
+    [https://disqus.com/](https://disqus.com/)
+
+```config
+    # Disqus
+    disqus_shortname: yeesblog
+```
+
+- 多说
+
+  [http://duoshuo.com/](http://duoshuo.com/)
+
+---
+class: inverse
+## Force regenerate static resources
+### 
+
+- Resource types in Hexo
+
+```
+    Page
+    Post
+    Asset
+```
+
+- Bugs: changes on asset(css/js file etc) can't get updated automically
+
+```config
+    E:\blog>hexo clean
+    [info] Deleted cache file
+    [info] Deleted public directory
+
+    E:\Dropbox\blog>hexo generate
+    [create] Public: js\remark.min.js
+    [create] Public: css\main.css
+    ...
+    [info] 17 files generated in 0.549s
+```
+
+---
+class: inverse
+## Disable layout and insert css/js
+### 
+
+- Disable layout
+
+  Edit your-post.md
+
+```config
+    layout: false
+```
+
+- Insert css/js
+
+```html
+    {% raw %}
+      <script src="/js/jquery.min.js" type="text/javascript"></script>
+    {% endraw %}
+```
+
+---
+class: inverse
+## Keep HTML as it is
+### 
+
+- By default, HTML will be processed the same way as markdown
+
+```bash
+    #windows
+    E:\blog>where hexo
+    C:\Users\user\AppData\Roaming\npm\hexo
+
+    #linux
+    whereis hexo 
+```
+- Edit npm\node_modules\hexo\lib\plugins\renderer\index.js
+
+```jaascript
+    var renderer = hexo.extend.renderer;
+
+    var html = require('./html');
+
+    //renderer.register('htm', 'html', html, true);
+    //renderer.register('html', 'html', html, true);
+
+    renderer.register('swig', 'html', require('./swig'), true);
+
+    ...
+```
+
+---
+class: center, middle, inverse
+## Q &amp; A 
+---
+class: center, middle, inverse
+## Thank You.
+---
+class: center, middle, inverse
+### Powered by [remarkjs](http://remarkjs.com/)
+
+    </textarea>
+    <script src="/js/remark.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+        highlightStyle: 'monokai',
+        highlightLanguage: 'php'
+      });
+    </script>
+  </body>
+</html>

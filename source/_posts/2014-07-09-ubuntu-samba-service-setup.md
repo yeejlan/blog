@@ -38,4 +38,4 @@ samba有自己的用户授权体系，每个linux系统中原有的用户，都�
 sudo smbpasswd -a rose
 ```
 
-之后绑定域名dev.example.com到开发机，打开资源管理器，地址栏输入\\dev.example.com就可以访问共享的资源了。
+之后绑定域名dev.example.com到开发机，打开资源管理器，地址栏输入\\\\dev.example.com就可以访问共享的资源了。

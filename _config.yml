@@ -34,7 +34,7 @@ max_open_file: 100
 multi_thread: true
 filename_case: 0
 render_drafts: false
-post_asset_folder: true
+post_asset_folder: false
 relative_link: false
 highlight:
   enable: true
@@ -88,5 +88,5 @@ exclude_generator:
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: github
-  repository: origin https://github.com/yeejlan/yeejlan.git
+  repository: git@github.com:yeejlan/yeejlan.github.io.git
   branch: master
