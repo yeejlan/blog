@@ -13,7 +13,7 @@ tags: [logstash, elasticsearch, kibina]
 
 如果服务器很多，或者是需要跨网络，那么可以使用前向代理，做成树状结构，树叶是Logstash，分析完成后传给树枝[logstash-forwarder](https://github.com/elasticsearch/logstash-forwarder), 然后传给树干Logstash, 最终输出汇总给ES
 
-Logstash, elasticsearch, kibana的安装都很简单，这里直接掠过，下面说下logstash是如何完成日志收集工作的。
+Logstash, elasticsearch, kibana的安装都很简单，这里直接略过，下面说下logstash是如何完成日志收集工作的。
 
 Logstash日志收集可以分成3大块，input, filter和output, 可以通过启动时指定配置文件来配置。
 
