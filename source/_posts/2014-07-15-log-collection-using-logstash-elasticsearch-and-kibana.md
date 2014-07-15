@@ -1,6 +1,6 @@
 title: '使用logstash, elasticsearch, kibana做日志分析系统'
 date: 2014-07-15 16:09:00
-tags: [logstash, elasticsearch, kibina]
+tags: [logstash, elasticsearch, kibana]
 ---
 
 一般情况下，一个站点会由多台server构成, 每台server每天会产生多种不同的日志，为了方面分析线上日志，常用做法是把线上日志集中存储到一个地方，然后按照日期，日志类型，日志内关键字等条件查询。而logstash, elasticsearch, 和kibana就是用来做这件事的开源解决方案。
