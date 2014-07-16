@@ -13,6 +13,8 @@ tags: [logstash, elasticsearch, kibana]
 
 如果服务器很多，或者是需要跨网络，那么可以使用前向代理，做成树状结构，树叶是Logstash，分析完成后传给树枝[logstash-forwarder](https://github.com/elasticsearch/logstash-forwarder), 然后传给树干Logstash, 最终输出汇总给ES
 
+树枝的角色一般叫做shipper，有很多方案可以代替logstash-forwarder, 比如redis, zeromq, rabbitmq等
+
 Logstash, elasticsearch, kibana的安装都很简单，这里直接略过，下面说下logstash是如何完成日志收集工作的。
 
 Logstash日志收集可以分成3大块，input, filter和output, 可以通过启动时指定配置文件来配置。
@@ -45,6 +47,7 @@ input {
 
 [grok](http://logstash.net/docs/1.4.2/filters/grok) 通过正则表达式把每一行的日志做匹配，把非结构化的信息变成结构化的
 [date](http://logstash.net/docs/1.4.2/filters/date) 可以用指定字段的值作为当前log的时间戳，而不是使用导入log时的系统时间。
+[multiline](http://logstash.net/docs/1.4.2/filters/multiline) 可以把多行日志合并成一个logstash事件
 
 解释起来比较拗口，看实际的配置例子更容易理解。
 
@@ -72,6 +75,19 @@ filter {
     date {
       match => [ "timestamp" , "ISO8601" ]
     }
+
+    #增加[site], [log]字段，比如/web/mywebsite/logs/login_error_10.log
+    #匹配到的[site] == 'mywebsite', [log] = 'login_error_'
+    ruby {
+        code => "
+           site = 'null'
+           log = 'null'
+           m = /(.*)\/(.*)\/logs(.*)\/([a-zA-Z\-_]+)(.*)\.(.*)/.match(event['path'])
+           site = m[2]; log=m[4] if m
+           event['site'] = site
+           event['log'] = log
+        "
+    }
   }
 }
 ```
@@ -81,13 +97,15 @@ filter {
 
 ```config
 {
-	"message" => "2014-07-14T22:12:26-07:00 INFO (6): Log detail",
-	"@version" => "1",
-	"@timestamp" => "2014-07-15T05:12:26.000Z",
-	"type" => "web_log",
-	"host" => "myserver.local",
-	"path" => "/web/mywebsite/logs/201407/login_error_14.txt",
-	"timestamp" => "2014-07-14T22:12:26-07:00"
+  "message" => "2014-07-14T22:12:26-07:00 INFO (6): Log detail",
+  "@version" => "1",
+  "@timestamp" => "2014-07-15T05:12:26.000Z",
+  "type" => "web_log",
+  "host" => "myserver.local",
+  "path" => "/web/mywebsite/logs/201407/login_error_14.txt",
+  "timestamp" => "2014-07-14T22:12:26-07:00"
+  "site" => "mywebsite",
+  "log" => "login_error_"  
 }
 ```
 ##在使用Filter转换好格式后，就可以配置output输出了
