@@ -119,3 +119,12 @@ output {
 可以看到，我配置了2个输出，一个使用rubydebug的格式打印到console上，一个使用elasticsearch_http输出到ES。
 
 以上就是logstash的配置过程，最重点的部分在filter上。数据到了ES之后，使用kibana查询可以参考这里的[介绍](http://www.elasticsearch.org/guide/en/kibana/current/)
+
+
+补充: 如果不想处理多行消息，可以使用\v\r，代替\r\n，可以在写入log前统一处理, php代码如下:
+
+```php
+$message = str_replace(array("\r\n","\n","\r"), "\v", $message);
+$message = str_replace("\v", "\v\r", $message);
+```
+
